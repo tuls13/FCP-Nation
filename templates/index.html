@@ -99,6 +99,7 @@
     <h1 class="display-5 text-center mb-2">Flood Contingency Plan</h1>
     <h2 class="text-center mb-4" style="font-size:1.5rem; color:#0d47a1; font-weight:500;">
       National, River Water Level Forecast {% if current_category %}- {{ current_category }}{% endif %}
+      <span class="date-highlight" id="local-date" style="display:block; font-size:1rem; margin-top:8px;"></span>
     </h2>
     <p class="text-center mb-4"><span class="date-highlight" id="gmt6-date"></span></p>
 
@@ -236,6 +237,10 @@
       return gmt6.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     }
     document.getElementById('gmt6-date').textContent = getGMT6DateString();
+
+    // Show user's local date in the sub header
+    document.getElementById('local-date').textContent =
+      new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
   </script>
 </body>
 </html>
