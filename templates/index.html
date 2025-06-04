@@ -101,7 +101,6 @@
       National, River Water Level Forecast {% if current_category %}- {{ current_category }}{% endif %}
       <span class="date-highlight" id="local-date" style="display:block; font-size:1rem; margin-top:8px;"></span>
     </h2>
-    <p class="text-center mb-4"><span class="date-highlight" id="gmt6-date"></span></p>
 
     <div class="text-center mb-4">
       <strong>Regions:</strong>
@@ -226,17 +225,6 @@
         }
       }
     }
-    // Optional: Add rain effect if desired
-    // if (Object.keys(stationData).length > 0 && Math.random() < 0.3) { makeRain(); }
-
-    // Calculate current date in GMT+6 (Bangladesh Standard Time)
-    function getGMT6DateString() {
-      const now = new Date();
-      // Get UTC time in ms, then add 6 hours in ms
-      const gmt6 = new Date(now.getTime() + (6 * 60 - now.getTimezoneOffset()) * 60000);
-      return gmt6.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    }
-    document.getElementById('gmt6-date').textContent = getGMT6DateString();
 
     // Show user's local date in the sub header
     document.getElementById('local-date').textContent =
