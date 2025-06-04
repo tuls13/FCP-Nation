@@ -84,6 +84,23 @@
       position: relative;
       z-index: 1;
     }
+    .region-badge {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      background: #e3f2fd;
+      color: #1565c0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 3px 12px;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px #b3d8f6;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .card {
+      position: relative;
+    }
   </style>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
@@ -138,6 +155,20 @@
       return name.replace(/\W/g, '_').replace(/_+/g, '_');
     }
 
+    // Helper: Find region for a station
+    function getRegionForStation(name) {
+      if (!window.stationToRegion) return '';
+      return window.stationToRegion[name] || '';
+    }
+
+    // Build station-to-region mapping from categories (passed from Flask as a JS object)
+    window.stationToRegion = {};
+    {% for region, stations_in_region in categories.items() %}
+      {% for station in stations_in_region %}
+        window.stationToRegion["{{ station|escapejs }}"] = "{{ region|escapejs }}";
+      {% endfor %}
+    {% endfor %}
+
     const stationData = JSON.parse(document.getElementById('station-data').textContent || '{}');
     if (Object.keys(stationData).length) {
       for (const [name, info] of Object.entries(stationData)) {
@@ -146,6 +177,15 @@
 
         const card = document.createElement('div');
         card.className = "card shadow-sm";
+
+        // Add region badge
+        const region = info.category || getRegionForStation(name);
+        if (region) {
+          const badge = document.createElement('div');
+          badge.className = 'region-badge';
+          badge.textContent = region;
+          card.appendChild(badge);
+        }
 
         const body = document.createElement('div');
         body.className = "card-body";
@@ -225,8 +265,6 @@
         }
       }
     }
-    // Optional: Add rain effect if desired
-    // if (Object.keys(stationData).length > 0 && Math.random() < 0.3) { makeRain(); }
 
     // Calculate current date in GMT+6 (Bangladesh Standard Time)
     function getGMT6DateString() {
