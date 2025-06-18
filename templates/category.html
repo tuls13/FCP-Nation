@@ -95,6 +95,45 @@
       animation: rain-fall 1.1s linear infinite;
       box-shadow: 0 0 6px 0 #2196f322;
     }
+    /* --- Responsive improvements --- */
+    @media (max-width: 991.98px) {
+      .col-lg-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      .card {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+    @media (max-width: 575.98px) {
+      h1 {
+        font-size: 1.3rem;
+      }
+      .date-highlight {
+        font-size: 1rem;
+        padding: 3px 8px;
+      }
+      .card-body {
+        padding: 0.75rem;
+      }
+      .card-title {
+        font-size: 1.1rem;
+      }
+      .info-box {
+        max-width: 100%;
+        font-size: 0.95rem;
+      }
+      .card {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+    /* Make Plotly charts fill card width */
+    .card .js-plotly-plot {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
   </style>
 </head>
 <body>
